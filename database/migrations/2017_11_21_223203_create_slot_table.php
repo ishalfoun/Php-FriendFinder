@@ -13,14 +13,12 @@ class CreateSlotTable extends Migration
      */
     public function up()
     {
-        Schema::create('slot', function (Blueprint $table) {
+        Schema::create('slots', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('day')->unsigned();
-
-            $table->integer('startend_id')->unsigned();
-            $table->foreign('startend_id')
-                ->references('id')->on('startend');
+            $table->integer('starttime')->unsigned();
+            $table->integer('endtime')->unsigned();
         });
     }
 
@@ -31,6 +29,6 @@ class CreateSlotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slot');
+        Schema::dropIfExists('slots');
     }
 }

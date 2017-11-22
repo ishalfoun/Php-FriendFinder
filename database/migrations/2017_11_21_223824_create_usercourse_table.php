@@ -13,7 +13,7 @@ class CreateUsercourseTable extends Migration
      */
     public function up()
     {
-        Schema::create('usercourse', function (Blueprint $table) {
+        Schema::create('usercourses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('user_id')->unsigned();
@@ -21,7 +21,7 @@ class CreateUsercourseTable extends Migration
                 ->references('id')->on('users');
             $table->integer('coursesection_id')->unsigned();
             $table->foreign('coursesection_id')
-                ->references('id')->on('coursesection');
+                ->references('id')->on('coursesections');
 
         });
     }
@@ -33,6 +33,6 @@ class CreateUsercourseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usercourse');
+        Schema::dropIfExists('usercourses');
     }
 }

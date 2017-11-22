@@ -13,17 +13,17 @@ class CreateCourseslotTable extends Migration
      */
     public function up()
     {
-        Schema::create('courseslot', function (Blueprint $table) {
+        Schema::create('courseslots', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
             $table->integer('coursesection_id')->unsigned();
             $table->foreign('coursesection_id')
-                ->references('id')->on('coursesection');
+                ->references('id')->on('coursesections');
 
             $table->integer('slot_id')->unsigned();
             $table->foreign('slot_id')
-                ->references('id')->on('slot');
+                ->references('id')->on('slots');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateCourseslotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courseslot');
+        Schema::dropIfExists('courseslots');
     }
 }

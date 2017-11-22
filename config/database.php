@@ -81,7 +81,7 @@ return [
         'pg-heroku' => [
             'driver' => 'pgsql',
             'host' => 'ec2-54-83-19-82.compute-1.amazonaws.com',
-            'database' => 'daqookbukp',
+            'database' => 'daqookbukporqc',
             'username' => 'jyqheqzgcznirr',
             'password' => 'f41aabdbae6516005e10884bfcee424e7521ec9c2fcfa776e1b6b39a5ac758d6',
             'charset' => 'utf8',

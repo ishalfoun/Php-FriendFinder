@@ -13,17 +13,17 @@ class CreateFriendshipTable extends Migration
      */
     public function up()
     {
-        Schema::create('friendship', function (Blueprint $table) {
+        Schema::create('friendships', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
             $table->integer('friend1_id')->unsigned();
             $table->foreign('friend1_id')
-                ->references('id')->on('user');
+                ->references('id')->on('users');
 
             $table->integer('friend2_id')->unsigned();
             $table->foreign('friend2_id')
-                ->references('id')->on('user');
+                ->references('id')->on('users');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateFriendshipTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('friendship');
+        Schema::dropIfExists('friendships');
     }
 }

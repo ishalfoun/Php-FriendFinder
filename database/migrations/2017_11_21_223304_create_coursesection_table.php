@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStartendTable extends Migration
+class CreateCoursesectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateStartendTable extends Migration
      */
     public function up()
     {
-        Schema::create('startend', function (Blueprint $table) {
+        Schema::create('coursesections', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('start_time')->unsigned();
-            $table->integer('end_time')->unsigned();
+            $table->string('teacher');
+            $table->string('section');
+            $table->string('class');
+            $table->string('title');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateStartendTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('startend');
+        Schema::dropIfExists('coursesections');
     }
 }
