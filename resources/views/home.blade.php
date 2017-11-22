@@ -15,7 +15,10 @@
                     @endif
 
                     <h2> Welcome {{Auth::user()->name}} !</h2>
-                    <a href='/friends'>View all friends</a>
+                        <ul>
+                            <li><a href='/courses'>Course Manager</a></li>
+                            <li><a href='/friends'>Friends Manager</a></li>
+                        </ul>
                 </div>
             </div>
         </div>
