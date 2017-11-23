@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFriendshipTable extends Migration
+class CreateFriendshipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,6 @@ class CreateFriendshipTable extends Migration
         Schema::create('friendships', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-
             $table->integer('friend1_id')->unsigned();
             $table->foreign('friend1_id')
                 ->references('id')->on('users');

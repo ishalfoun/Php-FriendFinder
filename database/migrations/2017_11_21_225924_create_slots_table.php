@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSlotTable extends Migration
+class CreateSlotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,9 +16,9 @@ class CreateSlotTable extends Migration
         Schema::create('slots', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('day')->unsigned();
-            $table->integer('starttime')->unsigned();
-            $table->integer('endtime')->unsigned();
+            $table->integer('day');
+            $table->integer('starttime');
+            $table->integer('endtime');
         });
     }
 
