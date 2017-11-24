@@ -24,4 +24,7 @@ Route::delete('/friend/{friend}', 'FriendController@delete');
 
 Route::get('/courses', 'CourseController@index');
 Route::post('/course', 'CourseController@search');
-Route::delete('/course/{course}', 'CourseController@drop');
+//Route::delete('/course/{course}', 'CourseController@drop');
+
+Route::put('/course/register/{course}', 'CourseController@register');
+Route::delete('/course/drop/{course}', 'CourseController@drop');
