@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Friend;
+use App\User;
 use Illuminate\Http\Request;
 
 class FriendController extends Controller
@@ -29,6 +31,28 @@ class FriendController extends Controller
         return view('friends.index', ['friends' => $friends,]);
     }
 
+
+    /**
+     * Search Friends
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
+
+        $searchkey = strtolower($request->name);
+
+        $friends = User
+            ::where('name', 'ILIKE', '%' . $searchkey . '%')->simplePaginate(20);
+
+
+        return  view('friends.result', ['friends' => $friends, 'key'=>$searchkey]);
+
+    }
 
     //TODO: CHANGE THIS!!
     /**

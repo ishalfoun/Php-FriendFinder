@@ -42,20 +42,13 @@ class CourseController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        $searchkey = $request->name;
+        $searchkey = strtolower($request->name);
 
         $courses = Course
-            ::where('title', 'LIKE', "%$searchkey%")
-            ->simplePaginate(20);
+            ::where('title', 'ILIKE', '%' . $searchkey . '%')->simplePaginate(20);
+
 
         return  view('courses.result', ['courses' => $courses, 'key'=>$searchkey]);
-
-//        echo 'searching for: '.$searchkey;
-//        if ($found) {
-//            echo 'found: ' . $found->title;
-//        }
-//        else
-//            echo 'not found';
 
     }
 
