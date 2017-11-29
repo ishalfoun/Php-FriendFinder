@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Friend;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FriendController extends Controller
 {
@@ -21,7 +22,7 @@ class FriendController extends Controller
     /**
      * Display a list of all of the user's friends.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function index(Request $request)
@@ -31,62 +32,65 @@ class FriendController extends Controller
         return view('friends.index', ['friends' => $friends,]);
     }
 
-
     /**
      * Search Friends
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function search(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-        ]);
 
-        $searchkey = strtolower($request->name);
+        //is this a request for the next page? (pagination)
+        if ($request->has('page') && $request->has('searchKey')) {
 
-        $friends = User
-            ::where('name', 'ILIKE', '%' . $searchkey . '%')->simplePaginate(20);
+            $searchKey = strtolower($request->searchKey);
+
+            $friends = User::where('name', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+
+            return view('friends.result', ['friends' => $friends, 'key' => $searchKey]);
+
+        } else {
+            $this->validate($request, [
+                'name' => 'required|max:255',
+            ]);
+
+            $searchkey = strtolower($request->name);
+
+            $friends = User
+                ::where('name', 'ILIKE', '%' . $searchkey . '%')->simplePaginate(20);
 
 
-        return  view('friends.result', ['friends' => $friends, 'key'=>$searchkey]);
+            return view('friends.result', ['friends' => $friends, 'key' => $searchkey]);
 
-    }
-
-    //TODO: CHANGE THIS!!
-    /**
-     * Create a new task.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-        ]);
-
-        $request->user()->tasks()->create([
-            'name' => $request->name,
-        ]);
-
-        return redirect('/tasks');
-
+        }
     }
 
     /**
-     * Destroy the given task.
+     * Send a friend request.
      *
      * @param  Request  $request
-     * @param  Task  $task
+     * @param  User $user
      * @return Response
      */
-    public function destroy(Request $request, Task $task)
+    public function register(Request $request, User $user)
     {
-        //
+        $request->user()->friends()->associate($user->id);
+
+        return redirect()->action('FriendController@index');
     }
 
-    //TODO: CHANGE THIS!!
+    /**
+     * Unfriend Someone
+     *
+     * @param  Request  $request
+     * @param  User $user
+     * @return Response
+     */
+    public function drop(Request $request, User $user)
+    {
+        $request->user()->friends()->where('friend2_id', '=', $user->id)->detach();
 
+        return redirect()->action('FriendController@index');
+    }
 }

@@ -27,6 +27,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $courses = $request->user()->courses()->get();
+
         return view('courses.index', ['courses' => $courses, 'found'=>null]);
     }
 
@@ -38,20 +39,33 @@ class CourseController extends Controller
      */
     public function search(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-        ]);
 
-        $searchkey = strtolower($request->name);
+        //is this a request for the next page? (pagination)
+        if($request->has('page') && $request->has('searchKey')){
 
-        $courses = Course
-            ::where('title', 'ILIKE', '%' . $searchkey . '%')->simplePaginate(20);
+            $searchKey = strtolower($request->searchKey);
 
+            $courses = Course::where('title', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
 
-        return  view('courses.result', ['courses' => $courses, 'key'=>$searchkey]);
+            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey]);
+
+        }else{
+            //otherwise, show first page of results
+            $this->validate($request, [
+                'searchKey' => 'required|max:255',
+            ]);
+
+            $searchKey = strtolower($request->searchKey);
+
+            $courses = Course
+                ::where('title', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+
+            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey]);
+
+        }
+
 
     }
-
 
     /**
      * Register for a course
@@ -62,47 +76,25 @@ class CourseController extends Controller
      */
     public function register(Request $request, Course $course)
     {
-        //get which id he clicked
-        //make netry in course_user with both user id and course id
+        $request->user()->courses()->attach($course->id);
 
-        DB::table('course_user')->insert([
-            'course_id' => $course->id,
-            'user_id' => \Auth::user()->id,
-        ]);
+        return redirect()->action('CourseController@index');
     }
-
-
 
     /**
      * Drop a course
      *
      * @param  Request  $request
-     * @param  Task  $task
+     * @param  Course  $course
      * @return Response
      */
     public function drop(Request $request, Course $course)
     {
-        //TODO: implement delete code here
+        $request->user()->courses()->where('course_id', '=', $course->id)->detach();
+
+        return redirect()->action('CourseController@index');
     }
 
 
-
-//    /**
-//     * Create a new task.
-//     *
-//     * @param  Request  $request
-//     * @return Response
-//     */
-//    public function store(Request $request)
-//    {
-//        $this->validate($request, [
-//            'name' => 'required|max:255',
-//        ]);
-//
-//        $request->user()->tasks()->create([
-//            'name' => $request->name,
-//        ]);
-//
-//    }
 
 }

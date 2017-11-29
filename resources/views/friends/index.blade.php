@@ -37,7 +37,7 @@
 
                                 <td>
                                     <!-- Delete Button -->
-                                    <form action="{{ url('friend/'.$friend->id) }}" method="POST">
+                                    <form action="{{ url('friend/unfriend/'.$friend->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
@@ -53,11 +53,17 @@
                     </table>
                 </div>
             </div>
+        @else
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    You have no friends assigned.
+                </div>
+            </div>
     @endif
 
 
     <!-- New friend Form -->
-        <form action="{{ url('friend') }}" method="POST" class="form-horizontal">
+        <form action="{{ url('friend/') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
 
         <!-- friend Name -->
@@ -73,7 +79,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
                     <button type="submit" class="btn btn-default">
-                        <i class="fa fa-plus"></i> Add friend
+                        <i class="fa fa-plus"></i> Search
                     </button>
                 </div>
             </div>

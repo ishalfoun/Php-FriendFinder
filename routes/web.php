@@ -13,18 +13,19 @@
 
 
 Auth::routes();
-
+//Home page
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/friends', 'FriendController@index');
-Route::post('/friend', 'FriendController@send');
-Route::delete('/friend/{friend}', 'FriendController@delete');
-
+//Courses
 Route::get('/courses', 'CourseController@index');
 Route::post('/course', 'CourseController@search');
-//Route::delete('/course/{course}', 'CourseController@drop');
-
+Route::get('/course', 'CourseController@search');
 Route::put('/course/register/{course}', 'CourseController@register');
 Route::delete('/course/drop/{course}', 'CourseController@drop');
+//Friends
+Route::get('/friends', 'FriendController@index');
+Route::post('/friend', 'FriendController@search');
+Route::get('/friend', 'FriendController@search');
+Route::put('/friend/addFriend/{friend}', 'FriendController@register');
+Route::delete('/friend/unfriend/{friend}', 'FriendController@drop');

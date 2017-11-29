@@ -12,7 +12,7 @@
 
 
     <!-- Search Course Form -->
-        <form action="{{ url('course') }}" method="POST" class="form-horizontal">
+        <form action="{{ url('course/') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
 
         <!-- Course Name -->
@@ -20,7 +20,7 @@
                 <label for="course-name" class="col-sm-3 control-label">Search for course</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="name" id="course-name" class="form-control">
+                    <input type="text" name="searchKey" id="course-name" class="form-control">
                 </div>
             </div>
 
@@ -89,8 +89,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{--TODO: ASK TEACHER --}}
-                {{ $courses->render() }}
+                {{ $courses->appends(['searchKey' => $key ])->links() }}
             </div>
         </div>
     @else
