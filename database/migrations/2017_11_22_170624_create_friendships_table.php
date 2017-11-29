@@ -15,7 +15,6 @@ class CreateFriendshipsTable extends Migration
     {
         Schema::create('friendships', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->integer('friend1_id')->unsigned();
             $table->foreign('friend1_id')
                 ->references('id')->on('users');
@@ -23,6 +22,7 @@ class CreateFriendshipsTable extends Migration
             $table->integer('friend2_id')->unsigned();
             $table->foreign('friend2_id')
                 ->references('id')->on('users');
+            $table->string('status');
         });
     }
 
