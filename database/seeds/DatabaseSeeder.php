@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
 
         DB::statement('TRUNCATE course_slot CASCADE');
         DB::statement('TRUNCATE course_user CASCADE');
@@ -21,11 +21,6 @@ class DatabaseSeeder extends Seeder
         DB::statement('TRUNCATE slots CASCADE');
         DB::statement('TRUNCATE courses CASCADE');
 
-        /*DB::table('course_slot')->truncate();
-        DB::table('course_user')->truncate();
-        DB::table('friendships')->truncate();
-        DB::table('slots')->truncate();
-        DB::table('courses')->truncate();*/
 
         $path = database_path('csv/FakeTeachersListW2017.csv');
         if (!file_exists($path) || !is_readable($path)) {

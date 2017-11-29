@@ -12,9 +12,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-
-        //resets id counters
-        //DB::statement('SET FOREIGN_KEY_CHECKS=0');
         //clear table
         DB::statement('TRUNCATE users CASCADE');
 
@@ -31,7 +28,7 @@ class UsersTableSeeder extends Seeder
         //create 50 fake users
 
         $faker = Faker::create();
-        foreach(range(1, 500) as $index)
+        foreach(range(1, 100) as $index)
         {
             DB::table('users')->insert([
                 'name' => $faker->firstName." ".$faker->lastName,
@@ -41,7 +38,7 @@ class UsersTableSeeder extends Seeder
             ]);
         }
 
-        echo "500 users successfully seeded.".PHP_EOL;
+        echo "100 users successfully seeded.".PHP_EOL;
 
 
     }
