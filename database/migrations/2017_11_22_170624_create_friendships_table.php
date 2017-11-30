@@ -23,6 +23,8 @@ class CreateFriendshipsTable extends Migration
             $table->foreign('friend2_id')
                 ->references('id')->on('users');
             $table->string('status');
+
+            $table->unique(['friend1_id', 'friend2_id']);
         });
     }
 

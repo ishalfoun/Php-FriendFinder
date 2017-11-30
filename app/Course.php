@@ -20,7 +20,7 @@ class Course extends Model
      */
     public function slots()
     {
-        return $this->belongsToMany('App\Slot');
+        return $this->belongsToMany('App\Slot', 'course_slot', 'course_id', 'slot_id');
     }
 
     /**
