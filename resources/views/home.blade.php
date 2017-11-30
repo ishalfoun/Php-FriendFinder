@@ -18,6 +18,7 @@
                         <ul>
                             <li><a href='/courses'>Course Manager</a></li>
                             <li><a href='/friends'>Friends Manager</a></li>
+                            <li><a href='/breaks'>Fiend Friends with Matching Breaks</a></li>
                         </ul>
                 </div>
             </div>

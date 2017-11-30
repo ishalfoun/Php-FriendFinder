@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         //for ($i=0; $i<30; $i++)
         while (($row = fgetcsv($handle, 0, ',')) !== FALSE) {
             echo PHP_EOL . 'adding row #' . $row_count++ . '  ';
-            $row = fgetcsv($handle, 0, ',');
+            echo $row[0].$row[1].$row[2].$row[3].$row[4].$row[5];
             $this->insert($row);
         }
         echo 'added all ';
@@ -64,10 +64,10 @@ class DatabaseSeeder extends Seeder
 
 
         if ($course) {                  //if it already exists:
-//            echo 'duplicate course ';
+            echo 'duplicate course';
             $course_id = $course->id;     //save the id
         } else {                        //else add the entry
-            echo 'adding:' . $data[0] . ' ' . $data[1] . ' ' . $data[2] . ' ' . $data[3];
+            echo 'adding course';
             DB::table('courses')->insert([
                 'class' => $data[0],
                 'section' => $data[1],
@@ -92,10 +92,10 @@ class DatabaseSeeder extends Seeder
 
         //if it already exists:
         if ($slot) {
-            echo 'duplicate slot' . PHP_EOL;
+            echo 'duplicate slot';
             $slot_id = $slot->id;
         } else { //else add the entry
-            echo 'adding:' . $data[4] . ' ' . $data[5] . ' ' . $data[6] . PHP_EOL;
+            echo 'adding slot';
             DB::table('slots')->insert([
                 'day' => $data[4],
                 'starttime' => $data[5],

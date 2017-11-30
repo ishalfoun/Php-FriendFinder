@@ -29,3 +29,9 @@ Route::post('/friend', 'FriendController@search');
 Route::get('/friend', 'FriendController@search');
 Route::put('/friend/addFriend/{friend}', 'FriendController@register');
 Route::delete('/friend/unfriend/{friend}', 'FriendController@drop');
+
+
+
+Route::get('/breaks', 'BreaksController@index');
+
+Route::post('/breaks', 'BreaksController@find');
