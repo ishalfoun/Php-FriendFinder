@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
+use App\Friend;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,13 +39,58 @@ class DatabaseSeeder extends Seeder
         $row = fgetcsv($handle, 0, ',');
         $row_count = 0;
 
-        //for ($i=0; $i<30; $i++)
+        //for ($i=0; $i<30; $i++){
         while (($row = fgetcsv($handle, 0, ',')) !== FALSE) {
             echo PHP_EOL . 'adding row #' . $row_count++ . '  ';
-            echo $row[0].$row[1].$row[2].$row[3].$row[4].$row[5];
+            echo $row[0] . $row[1] . $row[2] . $row[3] . $row[4] . $row[5];
             $this->insert($row);
         }
         echo 'added all ';
+
+
+        //create random course enrollments for each student (6 courses per person)
+        //for each user
+        $users = User::all();
+        foreach ($users as $user) {
+            foreach (range(1, 6) as $i) {
+                $user->courses()->attach(rand(1, 2000)); // give the user a random courseId
+            }
+        }
+        echo "all users were assigned 6 random courses";
+
+
+        //create random friendships TBA
+        //here
+        $usersAll = User::all();
+        echo 'size='.count($users);
+        $users80 = $usersAll->take(80);
+
+        foreach ($users80 as $user) {
+            foreach(range(1, 6) as $i)
+            {
+            $newFriend = $usersAll[($user->id)+$i];
+
+            $requester = new Friend;
+            $receiver = new Friend;
+
+            $requester->friend1_id = $user->id;
+            $requester->friend1_name = $user->name;
+            $requester->friend2_id = $newFriend->id;
+            $requester->friend2_name = $newFriend->name;
+            $requester->status = "Confirmed";
+
+            $receiver->friend1_id = $newFriend->id;
+            $receiver->friend1_name = $newFriend->name;
+            $receiver->friend2_id = $user->id;
+            $receiver->friend2_name = $user->name;
+            $receiver->status = "Confirmed";
+
+            $requester->save();
+            $receiver->save();
+
+            }
+        }
+        echo "all users were assigned 6 random courses";
 
     }
 
