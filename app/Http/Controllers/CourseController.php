@@ -45,9 +45,11 @@ class CourseController extends Controller
 
             $searchKey = strtolower($request->searchKey);
 
-            $courses = Course::where('title', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+            //search for other courses (based on keywords found in the course number, title or teacher)
+            $courses = Course::where('title', 'ILIKE', '%' . $searchKey . '%')->orWhere('class', 'ILIKE', '%' . $searchKey . '%')->orWhere('teacher', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+            $resultsToExclude=$this->filterSearch($request);
 
-            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey]);
+            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey, 'excludeList' => $resultsToExclude]);
 
         }else{
             //otherwise, show first page of results
@@ -57,13 +59,37 @@ class CourseController extends Controller
 
             $searchKey = strtolower($request->searchKey);
 
+            //search for other courses (based on keywords found in the course number, title or teacher
             $courses = Course
-                ::where('title', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+                ::where('title', 'ILIKE', '%' . $searchKey . '%')->orWhere('class', 'ILIKE', '%' . $searchKey . '%')->orWhere('teacher', 'ILIKE', '%' . $searchKey . '%')->simplePaginate(20);
+            $resultsToExclude=$this->filterSearch($request);
 
-            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey]);
+            return  view('courses.result', ['courses' => $courses, 'key'=>$searchKey, 'excludeList' => $resultsToExclude]);
 
         }
 
+
+    }
+
+    /**
+     * Filters search results to not include classes the student isn't already registered in
+     *
+     * @param  Request $request
+     * @param $searchKey
+     * @return array
+     */
+    public function filterSearch($request)
+    {
+
+        $registeredCourses = $request->user()->courses()->get();
+
+        $resultsToExclude = [];
+
+        foreach ($registeredCourses as $registeredCourse) {
+            $resultsToExclude[] = $registeredCourse->course_id;
+        }
+
+        return $resultsToExclude;
 
     }
 

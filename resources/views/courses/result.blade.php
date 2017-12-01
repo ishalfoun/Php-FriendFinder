@@ -54,9 +54,13 @@
                     <th>Teacher</th>
                     </thead>
 
-                    <!-- Table Body -->
+                {{var_dump($excludeList)}}
+
+                <!-- Table Body -->
                     <tbody>
                     @foreach ($courses as $course)
+                        <!-- Do not show courses in the exclude list-->
+                        @if(!in_array($course->id,$excludeList))
                         <tr>
                             <!-- Course Class -->
                             <td class="table-text">
@@ -86,6 +90,7 @@
                             </form>
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
