@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Friend extends Model
 {
     protected $table = 'friendships';
+    public $timestamps = false;
 
-    protected $fillable = ['friend1_id', 'friend2_id', 'status'];
+    protected $fillable = ['friend1_id', 'friend1_name', 'friend2_id', 'friend2_name', 'status'];
 
     public function friend1()
     {

@@ -27,10 +27,9 @@ Route::delete('/course/drop/{course}', 'CourseController@drop');
 Route::get('/friends', 'FriendController@index');
 Route::post('/friend', 'FriendController@search');
 Route::get('/friend', 'FriendController@search');
-Route::put('/friend/addFriend/{friend}', 'FriendController@register');
-Route::delete('/friend/unfriend/{friend}', 'FriendController@drop');
-
-
+Route::put('/friend/requestFriend/{friend}', 'FriendController@requestFriend');
+Route::put('/friend/addFriend/{friend}', 'FriendController@acceptFriend');
+Route::delete('/friend/unFriend/{friend}', 'FriendController@declineFriend');
 
 Route::get('/breaks', 'BreaksController@index');
 

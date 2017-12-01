@@ -18,10 +18,11 @@ class CreateFriendshipsTable extends Migration
             $table->integer('friend1_id')->unsigned();
             $table->foreign('friend1_id')
                 ->references('id')->on('users');
-
+            $table->string('friend1_name');
             $table->integer('friend2_id')->unsigned();
             $table->foreign('friend2_id')
                 ->references('id')->on('users');
+            $table->string('friend2_name');
             $table->string('status');
 
             $table->unique(['friend1_id', 'friend2_id']);

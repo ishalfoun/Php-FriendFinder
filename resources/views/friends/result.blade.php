@@ -12,7 +12,7 @@
 
 
     <!-- Search Friend Form -->
-        <form action="{{ url('course') }}" method="POST" class="form-horizontal">
+        <form action="{{ url('friend/') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
 
         <!-- Friend Name -->
@@ -20,7 +20,7 @@
                 <label for="course-name" class="col-sm-3 control-label">Search for a classmate</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="name" id="course-name" class="form-control">
+                    <input type="text" name="searchKey" id="course-name" class="form-control">
                 </div>
             </div>
 
@@ -54,6 +54,8 @@
                     <!-- Table Body -->
                     <tbody>
                     @foreach ($friends as $friend)
+                        <!-- Do not show names in the exclude list-->
+                        @if(!in_array($friend->id,$excludeList))
                         <tr>
                             <!-- Friend Name -->
                             <td class="table-text">
@@ -61,16 +63,17 @@
                             </td>
 
                             <td class="table-text">
-                                <form action="{{ url('friend/addFriend/'.$friend->id) }}" method="POST">
+                                <form action="{{ url('friend/requestFriend/'.$friend->id) }}" method="POST">
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
 
-                                    <button type="submit" id="addFriend-friend-{{ $friend->id }}" class="btn btn-danger">
+                                    <button type="submit" id="requestFriend-friend-{{ $friend->id }}" class="btn btn-danger">
                                         <i class="fa fa-btn fa-trash"></i>Send Friend Request
                                     </button>
                                 </form>
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
