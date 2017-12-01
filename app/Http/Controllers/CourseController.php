@@ -86,7 +86,7 @@ class CourseController extends Controller
         $resultsToExclude = [];
 
         foreach ($registeredCourses as $registeredCourse) {
-            $resultsToExclude[] = $registeredCourse->course_id;
+            $resultsToExclude[] = $registeredCourse->id;
         }
 
         return $resultsToExclude;
@@ -116,7 +116,11 @@ class CourseController extends Controller
      */
     public function drop(Request $request, Course $course)
     {
-        $request->user()->courses()->where('course_id', '=', $course->id)->detach();
+
+        DB::table('course_user')->where('course_id', '=', $course->id)->where('user_id', '=', $request->user()->id)->delete();
+        //$request->user()->courses()->where('course_id', '=', $course->id)->detach();
+
+
 
         return redirect()->action('CourseController@index');
     }

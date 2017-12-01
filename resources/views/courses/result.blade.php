@@ -54,8 +54,6 @@
                     <th>Teacher</th>
                     </thead>
 
-                {{var_dump($excludeList)}}
-
                 <!-- Table Body -->
                     <tbody>
                     @foreach ($courses as $course)

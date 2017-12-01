@@ -43,7 +43,7 @@ class BreaksController extends Controller
 
 
         //get all the users friends
-        $friends = $request->user()->friends()->where('status', '=', 'confirmed')->get();
+        $friends = $request->user()->friends()->where('status', '=', 'Confirmed')->get();
 
 
         $freeFriends = collect(); //new collection to be returned to the view
@@ -83,7 +83,7 @@ class BreaksController extends Controller
                 $freeFriends->push($friend); // they are free
                 continue;
             } else {
-                for ($i = 1; $i < count($courses)-1; $i++) {
+                for ($i = 0; $i < count($courses)-1; $i++) {
                     if ($courses[$i]->endtime < $courses[$i + 1] //If the end time of a course is strictly
                         // less that the start time of the friend’s next course
                         && $courses[$i]->endtime < $end // and strictly less than the end time of the break

@@ -32,16 +32,16 @@
                             <tr>
                                 <!-- Friend Name -->
                                 <td class="table-text">
-                                    <div>{{ $friend->friend2_name }}</div>
+                                    <div>{{ $friend->name }}</div>
                                 </td>
 
                                 <td>
                                     <!-- Delete Button -->
-                                    <form action="{{ url('friend/unFriend/'.$friend->friend2_id) }}" method="POST">
+                                    <form action="{{ url('friend/unFriend/'.$friend->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->friend2_id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Unfriend
                                         </button>
                                     </form>
@@ -76,15 +76,15 @@
                             <tr>
                                 <!-- Friend Name -->
                                 <td class="table-text">
-                                    <div>{{ $friend->friend2_name }}</div>
+                                    <div>{{ $friend->name }}</div>
                                 </td>
                                 <td>
                                     <!-- Delete Button -->
-                                    <form action="{{ url('friend/unFriend/'.$friend->friend2_id) }}" method="POST">
+                                    <form action="{{ url('friend/unFriend/'.$friend->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->friend2_id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Cancel Friend Request
                                         </button>
                                     </form>
@@ -120,15 +120,15 @@
                             <tr>
                                 <!-- Friend Name -->
                                 <td class="table-text">
-                                    <div>{{ $friend->friend2_name }}</div>
+                                    <div>{{ $friend->name }}</div>
                                 </td>
                                 <td>
                                     <!-- Accept Button -->
-                                    <form action="{{ url('friend/addFriend/'.$friend->friend2_id) }}" method="POST">
+                                    <form action="{{ url('friend/addFriend/'.$friend->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('PUT') }}
 
-                                        <button type="submit" id="add-friend-{{ $friend->friend2_id }}" class="btn btn-danger">
+                                        <button type="submit" id="add-friend-{{ $friend->id }}" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Add Friend
                                         </button>
                                     </form>
@@ -136,11 +136,11 @@
                                 </td>
                                 <td>
                                     <!-- Decline Button -->
-                                    <form action="{{ url('friend/unFriend/'.$friend->friend2_id) }}" method="POST">
+                                    <form action="{{ url('friend/unFriend/'.$friend->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->friend2_id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Decline
                                         </button>
                                     </form>

@@ -53,7 +53,7 @@
                                 <td class="table-text">
                                     <form action="{{ url('course/drop/'.$course->id) }}" method="POST">
                                         {{ csrf_field() }}
-                                        {{ method_field('delete') }}
+                                        {{ method_field('DELETE') }}
 
                                         <button type="submit" id="delete-course-{{ $course->id }}" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Drop
