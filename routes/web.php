@@ -32,5 +32,4 @@ Route::put('/friend/addFriend/{friend}', 'FriendController@acceptFriend');
 Route::delete('/friend/unFriend/{friend}', 'FriendController@declineFriend');
 
 Route::get('/breaks', 'BreaksController@index');
-
 Route::post('/breaks', 'BreaksController@find');

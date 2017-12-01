@@ -49,6 +49,7 @@
                     <!-- Table Headings -->
                     <thead>
                     <th>Name</th>
+                    <th>Program</th>
                     </thead>
 
                     <!-- Table Body -->
@@ -62,6 +63,12 @@
                                 <div>{{ $friend->name }}</div>
                             </td>
 
+                            <!-- Friend Program -->
+                            <td class="table-text">
+                                <div>{{ $friend->program }}</div>
+                            </td>
+
+                            <!-- Send Friend Request button -->
                             <td class="table-text">
                                 <form action="{{ url('friend/requestFriend/'.$friend->id) }}" method="POST">
                                     {{ csrf_field() }}

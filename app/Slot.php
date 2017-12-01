@@ -15,6 +15,8 @@ class Slot extends Model
         'day', 'starttime', 'endtime',
     ];
 
+    public $timestamps = false;
+
     /**
      * The courses that belong to the slot.
      */

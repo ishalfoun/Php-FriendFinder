@@ -15,6 +15,8 @@ class Course extends Model
         'teacher', 'section', 'class', 'title',
     ];
 
+    public $timestamps = false;
+
     /**
      * The Slot that belong to the course.
      */
