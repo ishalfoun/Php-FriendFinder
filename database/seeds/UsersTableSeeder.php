@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('dawson'),
         ]);
 
-        //create 50 fake users
+        //create 100 fake users
         $faker = Faker::create();
         foreach(range(1, 100) as $index)
         {
@@ -38,38 +38,6 @@ class UsersTableSeeder extends Seeder
         }
         echo "100 users successfully seeded.".PHP_EOL;
 
-
-
-
-        //create random course enrollments for each student (6 courses per person)
-        //for each user
-        $users = DB::table('users')->get();
-        foreach($users as $user)
-        {
-            foreach(range(1, 6) as $i)
-            {
-                $user->courses()->attach(rand(1, 2000)); // give the user a random courseId
-            }
-        }
-        echo "all users were assigned 6 random courses";
-
-
-
-
-        //create random friendships
-        //here
-        $users = DB::table('users')->get();
-        foreach($users as $user)
-        {
-            foreach(range(1, 6) as $i)
-            {
-                $user->friends()->attach(rand(1, 2000)); // give the user a random courseId
-
-                Friend::where('friend1_id', '=', $request->user()->id)->where('friend2_id', '=', $friend->id)->update(['status' => "Confirmed"]);
-                Friend::where('friend1_id', '=', $friend->id)->where('friend2_id', '=', $request->user()->id)->update(['status' => "Confirmed"]);
-            }
-        }
-        echo "all users were assigned 6 random courses";
     }
 
 

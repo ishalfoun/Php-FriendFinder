@@ -84,7 +84,7 @@ class BreaksController extends Controller
                 continue;
             } else {
                 for ($i = 0; $i < count($courses)-1; $i++) {
-                    if ($courses[$i]->endtime < $courses[$i + 1] //If the end time of a course is strictly
+                    if ($courses[$i]->endtime < $courses[$i + 1]->starttime //If the end time of a course is strictly
                         // less that the start time of the friend’s next course
                         && $courses[$i]->endtime < $end // and strictly less than the end time of the break
                         && $courses[$i]->endtime >= $start)//and greater than or equal to the start time of a break,
