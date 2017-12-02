@@ -14,13 +14,18 @@
         <form action="{{ url('breaks') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
 
-            <div class="panel-heading">Find Friends on Break</div>
+            <div class="panel-heading">Find Friends on Break between 10:00-17:00</div>
         <!-- Break Name -->
             <div class="form-group">
                 <label for="break-day" class="col-sm-3 control-label">Day</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="day" id="break-day" class="form-control" placeholder="1=Monday 2=Tuesday...">
+                    {{--<input type="text" name="day" id="break-day" class="form-control" placeholder="1=Monday 2=Tuesday...">--}}
+                    <select class="form-control" id="break-day"  name="day">
+                        @for($i=1; $i<6; $i++)
+                           <option value={{$i}}>{{$i}}</option>
+                        @endfor
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -28,7 +33,16 @@
                 <label for="break-start" class="col-sm-3 control-label">Start Time</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="start" id="break-start" class="form-control" placeholder="10:15">
+                    <select class="form-control" id="break-start" name="start">
+                        @for($i=10; $i<18; $i++)
+                            @for($j=0; $j<4; $j+=3)
+                                @if ($i==17 && $j==3)
+                                    @break
+                                @endif
+                                <option value={{$i}}:{{$j}}0>{{$i}}:{{$j}}0</option>
+                            @endfor
+                        @endfor
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -36,7 +50,16 @@
                 <label for="break-end" class="col-sm-3 control-label">End Time</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="end" id="break-end" class="form-control" placeholder="14:15">
+                    <select class="form-control" id="break-end" name="end">
+                        @for($i=10; $i<18; $i++)
+                            @for($j=0; $j<4; $j+=3)
+                                @if ($i==17 && $j==3)
+                                    @break
+                                @endif
+                                <option value={{$i}}:{{$j}}0>{{$i}}:{{$j}}0</option>
+                            @endfor
+                        @endfor
+                    </select>
                 </div>
             </div>
 

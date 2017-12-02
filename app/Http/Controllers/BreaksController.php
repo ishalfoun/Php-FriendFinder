@@ -33,7 +33,7 @@ class BreaksController extends Controller
     public function find(Request $request)
     {
         $this->validate($request, [
-            'day' => 'required|max:10|regex:(^\d$)',
+            'day' => 'required|max:10|regex:(^[{1}{2}{3}{4}{5}]$)',
             'start' => 'required|max:5|regex:(^\d\d:\d\d$)',
             'end' => 'required|max:5|regex:(^\d\d:\d\d$)',
         ]);
@@ -41,6 +41,10 @@ class BreaksController extends Controller
         $end = str_replace(':', '', $request->end);
         $day = $request->day;
 
+        if ($start > $end) {
+            $errors = collect(["Start time must be before end time"]);
+            return view('breaks.index', ['errors' => $errors]);
+        }
 
         //get all the users friends
         $friends = $request->user()->friends()->where('status', '=', 'Confirmed')->get();
@@ -49,7 +53,7 @@ class BreaksController extends Controller
         $freeFriends = collect(); //new collection to be returned to the view
 
         //loop through each friend
-        foreach($friends as $friend) {
+        foreach ($friends as $friend) {
 
             //get a list of courses for that friend, on that day, sorted by starttime
             $courses = DB::table('users')
@@ -67,9 +71,9 @@ class BreaksController extends Controller
             //
             //
             //DEBUGGING vvv
-            echo '<br>'. $friend->name . ' has ' . count($courses) . ' courses at '. $start.'-'.$end.':';
-            foreach($courses as $course)
-                echo '<br>__'.$course->title.' '.$course->starttime.'-'.$course->endtime;
+            echo '<br>' . $friend->name . ' has ' . count($courses) . ' courses on that day';
+            foreach ($courses as $course)
+                echo '<br>__' . $course->title . ' ' . $course->starttime . '-' . $course->endtime;
             //DEBUGGING ^^^
             //
             //
@@ -79,22 +83,25 @@ class BreaksController extends Controller
                 $freeFriends->push($friend); // they are technically free
                 continue;
             } else //if start time of their first course is strictly greater than the start time of your break then they are free
-            if ($courses->first()->starttime > $start) {
-                $freeFriends->push($friend); // they are free
-                continue;
-            } else {
-                for ($i = 0; $i < count($courses)-1; $i++) {
-                    if ($courses[$i]->endtime < $courses[$i + 1]->starttime //If the end time of a course is strictly
-                        // less that the start time of the friend’s next course
-                        && $courses[$i]->endtime < $end // and strictly less than the end time of the break
-                        && $courses[$i]->endtime >= $start)//and greater than or equal to the start time of a break,
-                    {
-                        $freeFriends->push($friend); // they are free
-                        continue;
+                if ($courses->first()->starttime > $start) {
+                    $freeFriends->push($friend); // they are free
+                    continue;
+                } else {
+                    for ($i = 0; $i < count($courses) - 1; $i++) {
+                        if ($courses[$i]->endtime < $courses[$i + 1]->starttime //If the end time of course is strictly
+                            // less that start time of friend’s next course
+                            && $courses[$i]->endtime < $end // and strictly less than the end time of the break
+                            && $courses[$i]->endtime >= $start)//and greater than or equal to the start time of a break,
+                        {
+                            $freeFriends->push($friend); // they are free
+                            continue;
+                        }
                     }
+
                 }
-            }
+
         }
+
         return  view('breaks.result', ['friends' => $freeFriends, 'day' =>  $request->day, 'start'=>$request->start, 'end' => $request->end]);
     }
 }
