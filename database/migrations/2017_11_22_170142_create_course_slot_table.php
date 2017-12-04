@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCourseslotTable extends Migration
+class CreateCourseSlotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateCourseslotTable extends Migration
      */
     public function up()
     {
-        Schema::create('courseslots', function (Blueprint $table) {
+        Schema::create('course_slot', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
-
-            $table->integer('coursesection_id')->unsigned();
-            $table->foreign('coursesection_id')
-                ->references('id')->on('coursesections');
-
+            $table->integer('course_id')->unsigned();
+            $table->foreign('course_id')
+                ->references('id')->on('courses');
             $table->integer('slot_id')->unsigned();
             $table->foreign('slot_id')
                 ->references('id')->on('slots');
@@ -34,6 +31,6 @@ class CreateCourseslotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courseslots');
+        Schema::dropIfExists('course_slot');
     }
 }

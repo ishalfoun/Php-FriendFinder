@@ -14,8 +14,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public $timestamps = false;
+
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'program', 'password',
     ];
 
     /**
@@ -26,4 +29,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The courses that belong to the user.
+     */
+    public function courses()
+    {
+        return $this->belongsToMany('App\Course');
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany('App\User', 'friendships', 'friend1_id', 'friend2_id');
+    }
+
 }
