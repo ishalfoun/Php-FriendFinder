@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('api/allfriends', 'ApiController@allFriends');
 Route::get('api/breakfriends','ApiController@breakFriends');
-Route::get('api/breakfriends','ApiController@courseFriends');
+Route::get('api/coursefriends','ApiController@courseFriends');
 Route::get('api/whereisfriend','ApiController@whereIsFriend');
