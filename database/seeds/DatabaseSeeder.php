@@ -62,11 +62,12 @@ class DatabaseSeeder extends Seeder
         //create random friendships
         $usersAll = User::all();
         echo 'size='.count($users);
-        $users80 = $usersAll->take(80);
+        $users80 = $usersAll->take(40);
 
         foreach ($users80 as $user) {
             foreach(range(1, 6) as $i)
             {
+                $i= $i+40;
             $newFriend = $usersAll[($user->id)+$i];
 
             $requester = new Friend;
@@ -83,12 +84,12 @@ class DatabaseSeeder extends Seeder
             $receiver->friend2_name = $user->name;
 
             //make half of them pending requests
-            if ($i <3 ) //1,2
+            if ($i <43 ) //1,2
             {
                 $requester->status = "Sent";
                 $receiver->status = "Received";
             }
-            else if ($i >3 && $i <5) //3,4
+            else if ($i >43 && $i <45) //3,4
             {
                 $requester->status = "Confirmed";
                 $receiver->status = "Confirmed";
@@ -98,7 +99,6 @@ class DatabaseSeeder extends Seeder
                 $requester->status = "Received";
                 $receiver->status = "Sent";
             }
-
 
             $requester->save();
             $receiver->save();
