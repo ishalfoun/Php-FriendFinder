@@ -59,15 +59,15 @@ class DatabaseSeeder extends Seeder
         echo "all users were assigned 6 random courses";
 
 
-        //create random friendships TBA
-        //here
+        //create random friendships
         $usersAll = User::all();
         echo 'size='.count($users);
-        $users80 = $usersAll->take(80);
+        $users80 = $usersAll->take(40);
 
         foreach ($users80 as $user) {
             foreach(range(1, 6) as $i)
             {
+                $i= $i+40;
             $newFriend = $usersAll[($user->id)+$i];
 
             $requester = new Friend;
@@ -77,19 +77,37 @@ class DatabaseSeeder extends Seeder
             $requester->friend1_name = $user->name;
             $requester->friend2_id = $newFriend->id;
             $requester->friend2_name = $newFriend->name;
-            $requester->status = "Confirmed";
 
             $receiver->friend1_id = $newFriend->id;
             $receiver->friend1_name = $newFriend->name;
             $receiver->friend2_id = $user->id;
             $receiver->friend2_name = $user->name;
-            $receiver->status = "Confirmed";
+
+            //make half of them pending requests
+            if ($i <43 ) //1,2
+            {
+                $requester->status = "Sent";
+                $receiver->status = "Received";
+            }
+            else if ($i >43 && $i <45) //3,4
+            {
+                $requester->status = "Confirmed";
+                $receiver->status = "Confirmed";
+            }
+            else
+            {
+                $requester->status = "Received";
+                $receiver->status = "Sent";
+            }
 
             $requester->save();
             $receiver->save();
 
             }
         }
+
+
+
         echo "all users were assigned 6 random courses";
 
     }

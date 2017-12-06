@@ -27,14 +27,20 @@ class FriendController extends Controller
      */
     public function index(Request $request)
     {
-        $friends = $request->user()->friends()->where('status', 'Confirmed')->get();
-
+        $friends = FriendController::friendListHelper($request)[0];
+        $friendRequestsReceived = FriendController::friendListHelper($request)[1];
         $friendRequestsSent = $request->user()->friends()->where('status', 'Sent')->get();
-
-        $friendRequestsReceived = $request->user()->friends()->where('status', 'Received')->get();
 
         return view('friends.index', ['friends' => $friends, 'friendRequestsSent' => $friendRequestsSent, 'friendRequestsReceived' => $friendRequestsReceived,]);
     }
+
+    public static function friendListHelper(Request $request)
+    {
+        $friends = $request->user()->friends()->where('status', 'Confirmed')->get();
+        $friendRequestsReceived = $request->user()->friends()->where('status', 'Received')->get();
+        return [$friends, $friendRequestsReceived];
+    }
+
 
     /**
      * Filters search results to not include friends that are pending or confirmed
@@ -56,13 +62,13 @@ class FriendController extends Controller
         $resultsToExclude[] = $request->user()->id;
 
         foreach ($friendsApproved as $friendApproved) {
-            $resultsToExclude[] = $friendApproved->friend2_id;
+            $resultsToExclude[] = $friendApproved->id;
         }
         foreach ($friendRequestsSent as $friendsSent) {
-            $resultsToExclude[] = $friendsSent->friend2_id;
+            $resultsToExclude[] = $friendsSent->id;
         }
         foreach ($friendRequestsReceived as $friendsReceived) {
-            $resultsToExclude[] = $friendsReceived->friend2_id;
+            $resultsToExclude[] = $friendsReceived->id;
         }
 
 
