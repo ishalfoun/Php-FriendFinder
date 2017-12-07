@@ -17,9 +17,9 @@
 
                         <h2> Welcome {{Auth::user()->name}} !</h2>
                         <ul>
-                            <li><a href='/courses'>Course Manager</a></li>
-                            <li><a href='/friends'>Friends Manager</a></li>
-                            <li><a href='/breaks'>Find Friends with Matching Breaks</a></li>
+                            <li><a href='/courses'>Manage Courses</a></li>
+                            <li><a href='/friends'>Manage Friends</a></li>
+                            <li><a href='/breaks'>Find Friends on Breaks</a></li>
                         </ul>
                     </div>
 

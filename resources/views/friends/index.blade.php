@@ -10,7 +10,30 @@
         <!-- Display Validation Errors -->
     @include('common.errors')
 
-    <!-- Current Friends -->
+    <!-- New friend Form -->
+        <form action="{{ url('friend/') }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
+
+        <!-- friend Name -->
+            <div class="form-group">
+                <label for="friend-name" class="col-sm-3 control-label">Search for a classmate</label>
+
+                <div class="col-sm-6">
+                    <input type="text" name="searchKey" id="friend-name" class="form-control">
+                </div>
+            </div>
+
+            <!-- Search friend Button -->
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fa fa-plus"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Current Friends -->
         @if (count($friends) > 0)
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -41,7 +64,8 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}"
+                                                class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Unfriend
                                         </button>
                                     </form>
@@ -59,7 +83,7 @@
                     You have no friends assigned.
                 </div>
             </div>
-    @endif
+        @endif
     <!-- Friend Requests (Outbound) -->
         @if (count($friendRequestsSent) > 0)
             <div class="panel panel-default">
@@ -84,7 +108,8 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}"
+                                                class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Cancel Friend Request
                                         </button>
                                     </form>
@@ -102,7 +127,7 @@
                     No new friend requests sent.
                 </div>
             </div>
-    @endif
+        @endif
 
     <!-- Friend Requests (Inbound) -->
         @if (count($friendRequestsReceived) > 0)
@@ -140,7 +165,8 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button type="submit" id="delete-friend-{{ $friend->id }}" class="btn btn-danger">
+                                        <button type="submit" id="delete-friend-{{ $friend->id }}"
+                                                class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Decline
                                         </button>
                                     </form>
@@ -159,30 +185,7 @@
                     No new friend requests received.
                 </div>
             </div>
-    @endif
-
-    <!-- New friend Form -->
-        <form action="{{ url('friend/') }}" method="POST" class="form-horizontal">
-        {{ csrf_field() }}
-
-        <!-- friend Name -->
-            <div class="form-group">
-                <label for="friend-name" class="col-sm-3 control-label">Search for a classmate</label>
-
-                <div class="col-sm-6">
-                    <input type="text" name="searchKey" id="friend-name" class="form-control">
-                </div>
-            </div>
-
-            <!-- Search friend Button -->
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
-                    <button type="submit" class="btn btn-default">
-                        <i class="fa fa-plus"></i> Search
-                    </button>
-                </div>
-            </div>
-        </form>
+        @endif
     </div>
 
 @endsection
