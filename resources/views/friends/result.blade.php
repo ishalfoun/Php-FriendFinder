@@ -42,7 +42,6 @@
             <div class="panel-heading">
                 Search Results for '{{$key}}'
             </div>
-
             <div class="panel-body">
                 <table class="table table-striped course-table">
 
@@ -56,6 +55,7 @@
                     <tbody>
                     @foreach ($friends as $friend)
                         <!-- Do not show names in the exclude list-->
+
                         @if(!in_array($friend->id,$excludeList))
                         <tr>
                             <!-- Friend Name -->
@@ -80,6 +80,22 @@
                                 </form>
                             </td>
                         </tr>
+                        @else
+                            <tr>
+                                <!-- Friend Name -->
+                                <td class="table-text">
+                                    <div>{{ $friend->name }}</div>
+                                </td>
+
+                                <!-- Friend Program -->
+                                <td class="table-text">
+                                    <div>{{ $friend->program }}</div>
+                                </td>
+
+                                <td class="table-text">
+                                Already your friend or there is a pending request.
+                                </td>
+                            </tr>
                         @endif
                     @endforeach
                     </tbody>
@@ -91,9 +107,15 @@
     @else
         <div class="panel panel-default">
             <div class="panel-heading">
-                No results found for '{{$key}}'
+               No results found for '{{$key}}'
             </div>
         </div>
     @endif
+    @if(!isset($atLeastOneResult))
 
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+        </div>
+    @endif
 @endsection

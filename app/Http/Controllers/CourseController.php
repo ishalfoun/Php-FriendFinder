@@ -27,10 +27,18 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        $courses = $request->user()->courses()->get();
-
-        return view('courses.index', ['courses' => $courses, 'found'=>null]);
+        $courses = CourseController::courseListHelper($request);
+        return view('courses.index', ['courses' => $courses]);
     }
+
+
+
+    public static function courseListHelper(Request $request)
+    {
+        return $request->user()->courses()->get();
+    }
+
+
 
     /**
      * Search Courses

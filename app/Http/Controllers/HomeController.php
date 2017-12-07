@@ -21,8 +21,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $friends = FriendController::friendListHelperPaginate($request)[0];
+        $friendRequestsReceived = FriendController::friendListHelper($request)[1];
+        $courses = CourseController::courseListHelper($request);
+
+        return view('home', ['courses' => $courses, 'friends' => $friends,
+            'friendRequestsReceived' => $friendRequestsReceived]);
     }
 }
