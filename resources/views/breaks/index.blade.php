@@ -20,11 +20,12 @@
                 <label for="break-day" class="col-sm-3 control-label">Day</label>
 
                 <div class="col-sm-6">
-                    {{--<input type="text" name="day" id="break-day" class="form-control" placeholder="1=Monday 2=Tuesday...">--}}
                     <select class="form-control" id="break-day"  name="day">
-                        @for($i=1; $i<6; $i++)
-                           <option value={{$i}}>{{$i}}</option>
-                        @endfor
+                        <option value={{1}}>Monday</option>
+                        <option value={{2}}>Tuesday</option>
+                        <option value={{3}}>Wednesday</option>
+                        <option value={{4}}>Thursday</option>
+                        <option value={{5}}>Friday</option>
                     </select>
                 </div>
             </div>
