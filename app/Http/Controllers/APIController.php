@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use App\Course;
 use App\Friend;
@@ -8,7 +9,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class APIController extends Controller {
+class APIController extends Controller
+{
 
 
     /**
@@ -16,18 +18,19 @@ class APIController extends Controller {
      * @param request the request object
      *
      */
-    public function allFriends(Request $request){
+    public function allFriends(Request $request)
+    {
         //validates the credentials
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
         $valid = Auth::once($credentials);
         //if not valid returns error
         if (!$valid)
-            return response()->json(['error' => 'invalid credentials'],401);
+            return response()->json(['error' => 'invalid credentials'], 401);
         //returns all the friends of the given user
         else {
             $user = Auth::user();
             $friends = $user->friends()->where('status', '=', 'Confirmed')->get();
-            return response()->json($friends,200);
+            return response()->json($friends, 200);
         }
     }
 
@@ -38,13 +41,14 @@ class APIController extends Controller {
      * @param Request $request
      * @return mixed
      */
-    public function breakFriends(Request $request){
+    public function breakFriends(Request $request)
+    {
         //validates user
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
         $valid = Auth::once($credentials);
         //if not valid return error
         if (!$valid)
-            return response()->json(['error' => 'invalid credentials'],401);
+            return response()->json(['error' => 'invalid credentials'], 401);
 
         else {
             //extract data from request object
@@ -52,17 +56,17 @@ class APIController extends Controller {
             $start = $request->input('start');
             $end = $request->input('end');
             //validate data, if wrong send error
-            if ($day == null || $start == null || $start < 1000 || $start > 1730 || $start >= $end || $end == null || $end < 1000 || $end > 1730){
-                return response()->json(['error' => 'bad or missing parameter'],400);
-            }
-            //find friends who are on break between the given times
+            if ($day == null || $start == null || $start < 1000 || $start > 1730 || $start >= $end || $end == null || $end < 1000 || $end > 1730) {
+                return response()->json(['error' => 'bad or missing parameter'], 400);
+            } //find friends who are on break between the given times
             else {
                 $user = Auth::user();
-                $friends = $this->friendsOnBreak($user,$day,$start,$end); //CHANGE TO GET FRIENDS
-                return response()->json($friends,200);
+                $friends = $this->friendsOnBreak($user, $day, $start, $end); //CHANGE TO GET FRIENDS
+                return response()->json($friends, 200);
             }
         }
     }
+
     /**
      * Finds and returns the friends in the given course
      * @param Request the request object
@@ -70,29 +74,30 @@ class APIController extends Controller {
      * @return code400 bad or missing parameters
      * @return code200 friends in given course, null if no friends in course
      */
-    public function courseFriends(Request $request){
+    public function courseFriends(Request $request)
+    {
         //Validates if the email and password match an entry
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
         $valid = Auth::once($credentials);
         //if not valid returns error
         if (!$valid)
-            return response()->json(['error' => 'invalid credentials'],401);
+            return response()->json(['error' => 'invalid credentials'], 401);
         else {
             //extracts coursename and section from request
             $coursename = $request->input('coursename');
             $section = $request->input('section');
             //if null returns error code
-            if ($coursename == null || $section == null){
-                return response()->json(['error' => 'bad or missing parameter'],400);
-            }
-            else {
+            if ($coursename == null || $section == null) {
+                return response()->json(['error' => 'bad or missing parameter'], 400);
+            } else {
                 //finds and returns friends in given course
                 $user = Auth::user();
-                $friends = $this->friendsInCourse($user,$coursename,$section);
-                return response()->json($friends,200);
+                $friends = $this->friendsInCourse($user, $coursename, $section);
+                return response()->json($friends, 200);
             }
         }
     }
+
     /**
      * Finds which course a friend is at a given time, null if in no classess
      * @param request the rquest object
@@ -100,14 +105,14 @@ class APIController extends Controller {
      * @return code400 bad or missing parameters or user not a friend
      * @return code200 the course the friend is in, null if no courses.
      */
-
-    public function whereIsFriend(Request $request){
+    public function whereIsFriend(Request $request)
+    {
         //validate user
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
         $valid = Auth::once($credentials);
         //if not valid return error
         if (!$valid)
-            return response()->json(['error' => 'invalid credentials'],401);
+            return response()->json(['error' => 'invalid credentials'], 401);
         //extract email, day time from request
         $friendemail = $request->input('friendemail');
         $day = $request->input('day');
@@ -115,17 +120,15 @@ class APIController extends Controller {
         //get user object from authentication
         $user = Auth::user();
         //validates data, if wrong return error
-        if ($friendemail == null || $day == null || $day < 1 || $day > 5 || $time == null){
-            return response()->json(['error' => 'bad or missing parameter'],400);
-        }
-        //checks if user is a friend if not returns error
-        else if (!$this->isFriend($user,$friendemail)){
-            return response()->json(['error' => 'not friend'],400);
-        }
-        //finds the course the user is in at the given time
+        if ($friendemail == null || $day == null || $day < 1 || $day > 5 || $time == null) {
+            return response()->json(['error' => 'bad or missing parameter'], 400);
+        } //checks if user is a friend if not returns error
+        else if (!$this->isFriend($user, $friendemail)) {
+            return response()->json(['error' => 'not friend'], 400);
+        } //finds the course the user is in at the given time
         else {
-            $course = $this->getFriendCurrentCourse($friendemail,$day,$time);
-            return response()->json($course,200);
+            $course = $this->getFriendCurrentCourse($friendemail, $day, $time);
+            return response()->json($course, 200);
         }
 
     }
@@ -137,7 +140,8 @@ class APIController extends Controller {
      * @param start the start time to find when the friends are on break
      * @param end the end time to find when the friends are on break
      */
-    private function friendsOnBreak($user,$day,$start,$end) {
+    private function friendsOnBreak($user, $day, $start, $end)
+    {
         $friends = $user->friends()->where('status', '=', 'Confirmed')->get();
         $freeFriends = collect(); //new collection to be returned to the view
         //loop through each friend
@@ -188,7 +192,8 @@ class APIController extends Controller {
      * @param section the section number
      * @return enrolledFriends returns the friends enrolled
      */
-    private function friendsInCourse($user,$course,$section){
+    private function friendsInCourse($user, $course, $section)
+    {
         //get friend list
         $friends = $user->friends()->where('status', '=', 'Confirmed')->get();
         //collection to push friends in class
@@ -196,9 +201,9 @@ class APIController extends Controller {
         //loop through each friend
         foreach ($friends as $friend) {
             //if the course is found, add it to the list
-            $courses  = $friend->courses()->where('title','=',$course)->where('section','=',$section)->first();//where('class','=',$course)->where('section','=',$section)->first();
+            $courses = $friend->courses()->where('title', '=', $course)->where('section', '=', $section)->first();
             //$enrolledFriends->push($courses);
-            if($courses != null){
+            if ($courses != null) {
                 $enrolledFriends->push($friend);
             }
         }
@@ -212,9 +217,10 @@ class APIController extends Controller {
      * @param friendemail the email of the friend
      * @return isFriend returns true or false if friend or not
      */
-    private function isFriend($user,$friendemail){
+    private function isFriend($user, $friendemail)
+    {
         //tries to find friend with that email
-        $friend = $user->friends()->where('email','=',$friendemail)->first();
+        $friend = $user->friends()->where('email', '=', $friendemail)->first();
         //returns false if null true if it found the friend
         if ($friend != null)
             return true;
@@ -227,16 +233,17 @@ class APIController extends Controller {
      * @param day the day number
      * @param time the time of the day to find the friend
      */
-    private function getFriendCurrentCourse($friendemail,$day,$time){
+    private function getFriendCurrentCourse($friendemail, $day, $time)
+    {
         //get friend object and the friend's courses
-        $friend = User::where('email','=',$friendemail)->first();
+        $friend = User::where('email', '=', $friendemail)->first();
 
         $courses = $friend->courses()->get();
         //loop through each course
-        foreach ($courses as $course){
+        foreach ($courses as $course) {
             //get the slot where the time falls between the time, if it finds it , it will return the current course
-            $slot = $course->slots()->where('day','=',$day)->where('starttime','<=',$time)->where('endtime','>=',$time)->first();
-            if($slot != null){
+            $slot = $course->slots()->where('day', '=', $day)->where('starttime', '<=', $time)->where('endtime', '>=', $time)->first();
+            if ($slot != null) {
                 return $course;
             }
         }

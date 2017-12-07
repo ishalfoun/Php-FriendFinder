@@ -41,6 +41,18 @@ class FriendController extends Controller
         return [$friends, $friendRequestsReceived];
     }
 
+    /**
+     * Retrieves friends 10 at a time.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public static function friendListHelperPaginate(Request $request)
+    {
+        $friends = $request->user()->friends()->where('status', 'Confirmed')->simplePaginate(10);
+        return [$friends];
+    }
+
 
     /**
      * Filters search results to not include friends that are pending or confirmed

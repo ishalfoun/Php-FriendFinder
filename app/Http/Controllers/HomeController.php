@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $friends = FriendController::friendListHelper($request)[0];
+        $friends = FriendController::friendListHelperPaginate($request)[0];
         $friendRequestsReceived = FriendController::friendListHelper($request)[1];
         $courses = CourseController::courseListHelper($request);
 

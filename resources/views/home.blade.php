@@ -128,6 +128,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                {{ $friends->links() }}
                             </div>
                         </div>
                     @else
